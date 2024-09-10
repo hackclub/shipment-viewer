@@ -1,0 +1,44 @@
+
+.banner img {
+    height: 80px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+#banner-text {
+    position: absolute;
+    left: 180px
+}
+
+.banner:hover img {
+    animation: wave-flag 0.5s linear infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .banner:hover img {
+        transition: 0.1875s cubic-bezier(0.375, 0, 0.675, 1) transform;
+        transform-origin: top left;
+    }
+}
+
+@keyframes wave-flag {
+    0% {
+        transform: rotate(0deg);
+        transform-origin: top left;
+    }
+    100% {
+        transform: rotate(-5deg);
+        transform-origin: top left;
+
+    }
+}
+
+body {
+    font-family: 'Phantom Sans', sans-serif !important;
+}
+
+a:focus,
+a:hover {
+    text-decoration-style: wavy;
+    text-decoration-skip-ink: none;
+}

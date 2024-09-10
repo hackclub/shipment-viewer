@@ -1,0 +1,39 @@
+---
+/* you might be wondering:
+ * "nora, why is it like this? why are you like this?"
+ *
+ * ...this is a 1-to-1 port of a lovingly handcrafted Jinja2 template :3
+ */
+const {shipment, show_ids} = Astro.props;
+---
+
+<div class=`card border-${shipment.status ? "success" : "info"} mb-3`>
+    <div class="card-header d-flex align-items-center justify-content-between">added
+        on {shipment.fields['Date Requested']} <span> {shipment.status ?
+                <abbr title=`doesn't necessarily mean it's been shipped,\nbut it was marked as dispatched on ${shipment.fields['Date Fulfilled']}`>fulfilled</abbr> : 'pending...'}</span>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">{shipment.fields['Request Type'] ? shipment.fields['Request Type'].join(', ') : "¯\\_(ツ)_/¯"}</h4>
+        {shipment.status ?
+            (
+                    <div>
+                        {shipment.fields['Warehouse–Service'] &&
+                                <p><i>via {shipment.fields['Warehouse–Service']}</i></p>}
+                        <span>contents:</span>
+                        <ul>
+                            {shipment.contents.map((item) =>
+                                            <li>{item}</li>)
+                                || "¯\\_(ツ)_/¯"}
+                        </ul>
+
+                        {shipment.fields['Warehouse–Tracking Number'] ?
+                            (<p>tracking #: <a
+                                            href={shipment.fields['Warehouse–Tracking URL'] || `https://parcelsapp.com/en/tracking/${shipment.fields['Warehouse–Tracking Number']}`}
+                                            target="_blank">{shipment.fields['Warehouse–Tracking Number']}</a></p>
+                            ) : (<p>no tracking on this one...</p>)}
+                    </div>
+            ) : (<p>hasn't been processed yet...</p>)}
+        {show_ids && <p>Airtable: <a href={shipment.url} target="_blank">{shipment.id}</a></p>}
+
+    </div>
+</div>

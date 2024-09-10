@@ -1,0 +1,25 @@
+---
+import '../styles/bootstrap.min.css';
+import '../styles/site.css';
+---
+
+<html>
+    <head>
+        <title>Hack Club – Shipment Viewer</title>
+        <link rel="stylesheet" href="https://css.hackclub.com/fonts.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+    <nav class="navbar fixed-top bg-light">
+        <a class="banner" target="_blank" href="https://hackclub.com/">
+            <img src="https://assets.hackclub.com/flag-orpheus-top.svg" />
+        </a>
+        <a class="navbar-brand">Shipment Viewer</a>
+    </nav>
+        <div class="container mt-5">
+            <br/>
+                <slot/>
+        </div>
+    </body>
+</html>

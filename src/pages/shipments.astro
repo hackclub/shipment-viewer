@@ -1,0 +1,57 @@
+---
+export const prerender = false
+
+
+import Layout from "../layouts/Layout.astro";
+import Shipment from "../components/Shipment.astro"
+import {redirect_error,sign,redirect} from "../../util";
+import Airtable from 'airtable';
+
+const {searchParams} = new URL(`http://example.com/${Astro.request.url}`)
+
+
+const email = searchParams.get("email")
+const signature = searchParams.get("signature")
+const show_ids = !!searchParams.get("show_ids")
+console.log(show_ids)
+if (!email) return redirect_error("missing email..?")
+if (!signature) return redirect_error("missing signature...? weird.")
+if (signature !== await sign(email)) return redirect_error("invalid signature :-/")
+
+let shipments = []
+// let skus = {}
+try {
+    const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.MSR_BASE);
+    const tMSR = base(process.env.MSR_TABLE)
+    shipments = await tMSR.select({filterByFormula: `{Email} = "${email}"`, sort: [{field: 'Date Requested', direction: 'desc'}]}).all()
+} catch (e) {
+    console.error(email)
+    console.error(e)
+    return redirect_error(`error fetching records from Airtable :-(<br/>request ID: ${Astro.request.headers.get('x-vercel-id')}`)
+}
+if(shipments.length === 0){
+    console.error("this should not be possible :3")
+    return redirect("/?tryAgain=yeah")
+}
+let columns = [[],[],[]]
+for (let i = 0; i < shipments.length; i++) {
+    shipments[i].status = !!shipments[i].fields["Date Fulfilled"]
+    shipments[i].contents = shipments[i].fields["Warehouse–Items Shipped JSON"] ?
+        JSON.parse(shipments[i].fields["Warehouse–Items Shipped JSON"])
+            .map((item)=> `${item.quantity}x ${item.name}`)
+        : [shipments[i].fields["Custom Instructions"]]
+    shipments[i].url = `https://airtable.com/${process.env.MSR_BASE}/${process.env.MSR_TABLE}/${shipments[i].id}?blocks=hide`
+}
+---
+
+<Layout>
+    <div class="container">
+        <div class="row">
+            {shipments.map((shipment) => (
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                        <Shipment shipment={shipment} show_ids={show_ids}/>
+                    </div>
+            ))}
+        </div>
+    </div>
+</Layout>

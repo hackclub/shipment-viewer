@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<script>
+    import '../scripts/jquery.js'
+
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (searchParams.get('tryAgain')) {
+        $("#flash").insertAdjacentHTML("beforeend", `<div class="alert alert-info m-auto d-inline-block">
+				<strong>sorry, we couldn't find any shipments for that email...</strong> <a>is there another one they might be tied to?</a>
+			</div>`)
+        $("#submit").innerText = "try another?"
+    }
+    if (searchParams.get('error')) {
+        $("#flash").insertAdjacentHTML("beforeend", `<div class="alert alert-danger m-auto d-inline-block">
+				<strong>something went wrong:</strong> <a>${searchParams.get('error')}</a>
+			</div>`)
+    }
+    if (searchParams.get('internal')) {
+        $("#submit").innerText = "😎"
+        $("#header").innerText = $("#header").innerText.replace("your", "their")
+        $("#internal").value = searchParams.get('internal')
+    }
+
+</script>
+<Layout>
+    <div class="col">
+        <div class="row">
+            <div id="flash" class="mb-2"/>
+        </div>
+        <div class="row">
+            <h1 id="header">hey, what's your email?</h1>
+        </div>
+        <div class="row">
+            <form action="/api/email" method="post">
+                <div>
+                    <input type="email" name=email" class="form-control" placeholder="dinobox@hackclub.com" required>
+                    <input type="hidden" name="internal" id="internal"/>
+                </div>
+                <small id="emailSubtitle" class="form-text text-muted">(this is the email we'll look up in the shipments database)</small>
+                <div>
+                    <button type="submit" class="btn btn-success" id="submit">go!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</Layout>
