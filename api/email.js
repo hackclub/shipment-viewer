@@ -41,7 +41,7 @@ export default async function handler(req) {
     if (internal) return redirect(`${process.env.BASE_URL}/shipments?${new URLSearchParams({
         email,
         signature: await sign(email),
-        show_records: "yep"
+        show_ids: "yep"
     }).toString()}`)
     try {
         const loops = new LoopsClient(process.env.LOOPS_API_KEY);
