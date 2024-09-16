@@ -1,7 +1,6 @@
-import {redirect, redirect_error, sign} from "../util.js";
+import {gen_shipments_url, redirect, redirect_error, EMAIL_REGEX} from "../util.js";
 import {LoopsClient} from "loops";
 // sorry
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 export const config = {
     runtime: 'edge',
 };
@@ -14,7 +13,7 @@ export default async function handler(req) {
     const internal = form.get('internal')
     console.log(email)
     console.log(internal)
-    if (internal && internal !== process.env.INTERNAL_KEY) return redirect("https://www.youtube.com/watch?v=gvdf5n-zI14")
+    if (internal && internal !== process.env.INTERNAL_KEY) return redirect(process.env.NOPE_URL)
 
     if (email === "dinobox@hackclub.com") return redirect_error("that is not your email :3")
     // huh??
@@ -38,21 +37,14 @@ export default async function handler(req) {
         console.error(e, e.stack)
         return redirect_error(`error checking for shipments from that email!<br/>request ID: ${req.headers.get('x-vercel-id')}`)
     }
-    if (internal) return redirect(`${process.env.BASE_URL}/shipments?${new URLSearchParams({
-        email,
-        signature: await sign(email),
-        show_ids: "yep"
-    }).toString()}`)
+    if (internal) return redirect(gen_shipments_url(email, true))
     try {
         const loops = new LoopsClient(process.env.LOOPS_API_KEY);
         await loops.sendTransactionalEmail({
             transactionalId: process.env.TRANSACTIONAL_ID,
             email: email,
             dataVariables: {
-                link: `${process.env.BASE_URL}/shipments?${new URLSearchParams({
-                    email,
-                    signature: await sign(email)
-                }).toString()}`
+                link: gen_shipments_url(email)
             }
         });
     } catch (e) {
