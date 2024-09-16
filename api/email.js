@@ -39,12 +39,13 @@ export default async function handler(req) {
     }
     if (internal) return redirect(gen_shipments_url(email, true))
     try {
+        console.log("looping")
         const loops = new LoopsClient(process.env.LOOPS_API_KEY);
         await loops.sendTransactionalEmail({
             transactionalId: process.env.TRANSACTIONAL_ID,
             email: email,
             dataVariables: {
-                link: gen_shipments_url(email)
+                link: await gen_shipments_url(email)
             }
         });
     } catch (e) {
