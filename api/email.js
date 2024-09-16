@@ -41,13 +41,16 @@ export default async function handler(req) {
     try {
         console.log("looping")
         const loops = new LoopsClient(process.env.LOOPS_API_KEY);
-        await loops.sendTransactionalEmail({
+        const loop = await loops.sendTransactionalEmail({
             transactionalId: process.env.TRANSACTIONAL_ID,
             email: email,
             dataVariables: {
                 link: await gen_shipments_url(email)
             }
         });
+        if(!loop.success) {
+            throw new Error(loop.error)
+        }
     } catch (e) {
         console.error(e, e.stack)
         return redirect_error(`error sending email!<br/>request ID: ${req.headers.get('x-vercel-id')}`)
