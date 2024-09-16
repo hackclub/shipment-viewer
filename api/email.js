@@ -37,7 +37,7 @@ export default async function handler(req) {
         console.error(e, e.stack)
         return redirect_error(`error checking for shipments from that email!<br/>request ID: ${req.headers.get('x-vercel-id')}`)
     }
-    if (internal) return redirect(gen_shipments_url(email, true))
+    if (internal) return redirect(await gen_shipments_url(email, true))
     try {
         console.log("looping")
         const loops = new LoopsClient(process.env.LOOPS_API_KEY);
