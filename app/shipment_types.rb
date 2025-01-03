@@ -339,7 +339,7 @@ class BobaDropsShipment < Shipment
   end
 
   def date
-    self["[Shipment Viewer] Approved/pending at"]
+    self["[Shipment Viewer] Approved/pending at"] || 'error!'
   end
 
   def status_text
