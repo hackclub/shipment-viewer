@@ -1,32 +1,37 @@
 <div class="card">
   <h4 style="display: inline-block"><%= shipment.icon %> <%= shipment.title_text %></h4> <span style="float: right"><%= shipment.status_icon %></span>
   <hr/>
-  <i><%= shipment.type_text %></i><br/>
-  <%= shipment.status_text %>
-
-  <%= shipment["Warehouse–Service"] %>
+  📝 <i><%= shipment.type_text %></i><br/>
+  🟢 <%= shipment.status_text %>
+  <% if shipment["Warehouse-Service"] %>
+  <br>
+  🚚 <%= shipment["Warehouse–Service"] %>
+  <% end %>
   <% if shipment.tracking_number %>
     <br/>
     <% if shipment.tracking_link %>
-      <%= external_link(shipment.tracking_number, shipment.tracking_link) %>
+    🔗 <%= external_link(shipment.tracking_number, shipment.tracking_link) %>
     <% else %>
-      <%= shipment.tracking_number %>
+    🔢 <%= shipment.tracking_number %>
     <% end %>
   <% end %>
   <% if @show_ids %>
     <br/>
     Airtable: <%= external_link(shipment.source_id, shipment.source_url) %>
   <% end %>
-  <% if shipment.description.is_a? Array %>
-    <br/><b>Contents:</b>
-    <ul>
-      <% shipment.description.each do |item| %>
-      <li><%= item %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <br/>
-    <b>Description:</b> <%= shipment.description %>
-<% end %>
-  <br/><span>Created on <%= shipment.date[..9] %></span>
+  <% if shipment.description %>
+    <% if shipment.description.is_a? Array %>
+      <br/><b>Contents:</b>
+      <ul>
+        🗃️ <% shipment.description.each do |item| %>
+        <li><%= item %></li>
+        <% end %>
+      </ul>
+      <% else %>
+      <br/>
+      🗃️ <b>Description:</b> <%= shipment.description %>
+    <% end %>
+  <% end %>
+  <br/>
+  <br/><span>📅 Created on <%= shipment.date[..9] %></span>
 </div>
