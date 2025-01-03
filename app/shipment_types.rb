@@ -339,7 +339,7 @@ class BobaDropsShipment < Shipment
   end
 
   def date
-    self["Last Updates"]
+    self["[Shipment Viewer] Approved/pending at"]
   end
 
   def status_text
