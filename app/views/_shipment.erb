@@ -2,7 +2,7 @@
   <h4 style="display: inline-block"><%= shipment.icon %> <%= shipment.title_text %></h4> <span style="float: right"><%= shipment.status_icon %></span>
   <hr/>
   📝 <i><%= shipment.type_text %></i><br/>
-  🟢 <%= shipment.status_text %>
+  📨 <%= shipment.status_text %>
   <% if shipment["Warehouse-Service"] %>
   <br>
   🚚 <%= shipment["Warehouse–Service"] %>
@@ -15,15 +15,11 @@
     🔢 <%= shipment.tracking_number %>
     <% end %>
   <% end %>
-  <% if @show_ids %>
-    <br/>
-    Airtable: <%= external_link(shipment.source_id, shipment.source_url) %>
-  <% end %>
   <% if shipment.description %>
     <% if shipment.description.is_a? Array %>
-      <br/><b>Contents:</b>
+      <br/><b>🗃 Contents:</b>
       <ul>
-        🗃️ <% shipment.description.each do |item| %>
+        <% shipment.description.each do |item| %>
         <li><%= item %></li>
         <% end %>
       </ul>
@@ -34,4 +30,8 @@
   <% end %>
   <br/>
   <br/><span>📅 Created on <%= shipment.date[..9] %></span>
+  <% if @show_ids %>
+    <br/>
+    👀 <span class="internal" style="border-radius: 8px; padding: 3px">Airtable: <%= external_link(shipment.source_id, shipment.source_url) %></span>
+  <% end %>
 </div>
