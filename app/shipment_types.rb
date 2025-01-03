@@ -389,4 +389,56 @@ class BobaDropsShipment < Shipment
   end
 end
 
-SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment, BobaDropsShipment].freeze
+class SprigShipment < Shipment
+  self.table_name = ENV["SPRIG_TABLE"]
+  self.email_column = 'Email'
+
+  def title_text
+    "Sprig!"
+  end
+  def type_text
+    "Sprig shipment"
+  end
+
+  def date
+    fields["Created At"]
+  end
+
+  def status_text
+    if shipped?
+      "shipped via #{fields['Carrier'] || "...we don't know"}!"
+    else
+      "pending..."
+    end
+  end
+
+  def status_icon
+    if shipped?
+      '<i class="fa-solid fa-truck"></i>'
+    else
+      '<i class="fa-solid fa-clock"></i>'
+    end
+  end
+
+  def tracking_link
+    fields['Tracking'] && "#{(fields['Tracking Base Link'] || 'https://parcelsapp.com/en/tracking/')}#{fields['Tracking']}"
+  end
+
+  def tracking_number
+    fields["Tracking"]
+  end
+
+  def icon
+    "🌱"
+  end
+
+  def shipped?
+    fields['Sprig Status'] == 'Shipped'
+  end
+
+  def description
+    "a #{fields['Color']&.downcase.concat ' '}Sprig!"
+  end
+end
+
+SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment, BobaDropsShipment, SprigShipment].freeze
