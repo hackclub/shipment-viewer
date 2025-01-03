@@ -79,7 +79,6 @@ a:hover {
 }
 
 .footer {
-    z-index: 42060;
     background-color: var(--sunken);
     position: fixed;
     bottom: 0;
