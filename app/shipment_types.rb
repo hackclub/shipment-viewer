@@ -382,4 +382,4 @@ class BobaDropsShipment < Shipment
   end
 end
 
-SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment].freeze
+SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment, BobaDropsShipment].freeze
