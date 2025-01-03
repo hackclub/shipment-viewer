@@ -331,6 +331,9 @@ class BobaDropsShipment < Shipment
   self.table_name = ENV["BOBA_TABLE"]
   self.email_column = "Email"
 
+  def title_text
+    "Boba Drops!"
+  end
   def type_text
     "Boba Drops Shipment"
   end
