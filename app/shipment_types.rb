@@ -374,7 +374,7 @@ class BobaDropsShipment < Shipment
   end
 
   def icon
-    return "🧋"
+    "🧋"
   end
 
   def shipped?
@@ -382,7 +382,7 @@ class BobaDropsShipment < Shipment
   end
 
   def description
-    return "shipment from boba drops <3"
+    "shipment from boba drops <3"
   end
 end
 
