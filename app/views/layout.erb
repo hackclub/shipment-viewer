@@ -21,7 +21,7 @@
     <a class="banner" target="_blank" href="https://hackclub.com/">
       <img src="/flag.png" />
     </a>
-    <a href='<%= @internal ? '/internal' : '/' %>' class="navbar-brand"><b>Shipment Viewer</b></a>
+    <a href='<%= @internal ? '/internal' : '/' %>' class="navbar-brand"><b>Shipment Viewer<%= @internal && " (cool edition)" %></b></a>
   </nav>
   <div style="margin-top: 64px">
     <% if @error %>
