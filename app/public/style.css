@@ -77,3 +77,24 @@ a:hover {
     padding: 14px 16px;
     text-decoration: none;
 }
+
+.footer {
+    z-index: 42060;
+    background-color: var(--sunken);
+    position: fixed;
+    bottom: 0;
+    width: 100%
+}
+
+.footer-text {
+    margin-left: 15px;
+    color: black;
+    float: left;
+    display: block;
+    padding 14px 16px;
+    text-decoration: none;
+}
+
+.internal {
+    border: 1.5px dashed orange;
+}

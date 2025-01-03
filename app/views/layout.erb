@@ -17,21 +17,28 @@
   </script>
 </head>
 <body>
-<nav class="navbar fixed-top bg-light">
-  <a class="banner" target="_blank" href="https://hackclub.com/">
-    <img src="https://assets.hackclub.com/flag-orpheus-top.svg" />
-  </a>
-  <a href='<%= @internal ? '/internal' : '/' %>' class="navbar-brand">Shipment Viewer</a>
-</nav>
-<div style="margin-top: 64px">
-<% if @error %>
-<div class="container">
-  <div class="card" style="background: var(--orange); margin-bottom: var(--spacing-2); color: var(--white)">
-    <b>error:</b> <%= @error %>
+  <nav class="navbar fixed-top bg-light">
+    <a class="banner" target="_blank" href="https://hackclub.com/">
+      <img src="flag.png" />
+    </a>
+    <a href='<%= @internal ? '/internal' : '/' %>' class="navbar-brand"><b>Shipment Viewer</b></a>
+  </nav>
+  <div style="margin-top: 64px">
+    <% if @error %>
+      <div class="container">
+        <div class="card" style="background: var(--orange); margin-bottom: var(--spacing-2); color: var(--white)">
+          <b>error:</b> <%= @error %>
+        </div>
+      </div>
+    <% end %>
+    <%= yield %>
   </div>
-</div>
-<% end %>
-<%= yield %>
-</div>
+  <div class="footer">
+    <div class="footer-text">
+      <p><%= @internal ? "hello there hacker! 🫡 ~ orpheus" : "" %></p>
+      <p>With love from <a target="_blank" href="https://hackclub.com/">Hack Club</a>. We're open source at <a target="_blank" href="https://github.com/hackclub/shipment-viewer">hackclub/shipment-viewer</a>.</p>
+    </div>
+  </div>
+  
 </body>
 </html>
