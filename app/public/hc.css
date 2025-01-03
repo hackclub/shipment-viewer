@@ -581,3 +581,18 @@ td {
     max-width: var(--size-narrow-plus);
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
+  }
+
+  .navbar-brand {
+    margin-left: 20px;
+  }
+
+  .footer-text {
+    padding: 10px;
+  }
+}

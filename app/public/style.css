@@ -61,7 +61,6 @@ a:hover {
 
 .navbar {
     z-index: 42069;
-    /*overflow: hidden;*/
     background-color: var(--sunken);
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
@@ -97,6 +96,47 @@ a:hover {
 
 .internal {
     border: 1.5px dashed orange;
-    border-radius: var(--radii-extra);;
+    border-radius: var(--radii-extra);
     padding-left: 3px;
+}
+
+@media (max-width: 768px) {
+    .shipments {
+      layout: block;
+    }
+  
+    .banner img {
+      height: 60px;
+      left: 10px;
+    }
+  
+    .navbar-brand {
+      margin-left: 0;
+      flex-grow: 1;
+      text-align: center;
+    }
+  
+    .footer-text {
+      padding: 10px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+    }
+  
+    .banner {
+      flex-shrink: 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar {
+        display: block;
+    }
+
+    .navbar-brand {
+        margin-left: 140px;
+        text-align: left;
+    }
 }
