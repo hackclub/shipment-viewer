@@ -456,4 +456,121 @@ class SprigShipment < Shipment
   end
 end
 
-SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment, BobaDropsShipment, SprigShipment].freeze
+class InternationalPostersShipment < Shipment
+  self.table_name = ENV["POSTERS_TABLE"]
+  self.email_column = "Email"
+
+  def type_text
+    "International Posters"
+  end
+
+  def title_text
+    "Posters ordered at hack.club/intlposters"
+  end
+
+  def date
+    self["Date Shipped"]
+  end
+
+  def status_text
+    case fields["Status"]
+    when "Labelled"
+      "awaiting collection for delivery..."
+    when "Shipped"
+      "shipped!"
+    else
+      "this shouldn't happen."
+    end
+  end
+
+  def status_icon
+    case fields["state"]
+    when "Labelled"
+      '<i class="fa-solid fa-dolly"></i>'
+    when "Shipped"
+      '<i class="fa-solid fa-truck-fast"></i>'
+    else
+      '<i class="fa-solid fa-clock"></i>'
+    end
+  end
+
+  def tracking_link
+    fields['Tracking'] unless fields["Tracking"] == ""
+  end
+
+  def tracking_number
+    fields["Tracking Number"] unless fields["Tracking Number"] == ""
+  end
+
+  def icon
+    "📦"
+  end
+
+  def shipped?
+    fields["Status"] == 'Shipped'
+  end
+
+  def description
+    "custom poster order!"
+    end
+  end
+end
+
+class IndiaInternationalPostersShipment < Shipment
+  self.table_name = ENV["INDIA_POSTERS_TABLE"]
+  self.email_column = "Email"
+
+  def type_text
+    "International Posters (India)"
+  end
+
+  def title_text
+    "Posters ordered at hack.club/intlposters in India"
+  end
+
+  def date
+    self["Date Shipped"]
+  end
+
+  def status_text
+    case fields["Status"]
+    when "Labelled"
+      "awaiting collection for delivery..."
+    when "Shipped"
+      "shipped!"
+    else
+      "this shouldn't happen."
+    end
+  end
+
+  def status_icon
+    case fields["state"]
+    when "Labelled"
+      '<i class="fa-solid fa-dolly"></i>'
+    when "Shipped"
+      '<i class="fa-solid fa-truck-fast"></i>'
+    else
+      '<i class="fa-solid fa-clock"></i>'
+    end
+  end
+
+  def tracking_link
+    fields['Tracking']
+  end
+
+  def icon
+    "📦"
+  end
+
+  def shipped?
+    fields["Status"] == 'Shipped'
+  end
+
+  def description
+    "custom poster order from India!"
+    end
+  end
+end
+
+
+SHIPMENT_TYPES = [WarehouseShipment, HighSeasShipment, BobaDropsShipment, SprigShipment, InternationalPosterShipment, IndiaInternationalPostersShipment].freeze
