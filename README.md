@@ -1,4 +1,8 @@
-# New Shipment Viewer
+# (not) New Shipment Viewer
+
+HEY YOU! This has moved to mail.hackclub.com!
+
+but... if you're still interested in this code (it's pretty rad).... read on!
 
 hey! i'm glad you're here :-)
 
